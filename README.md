@@ -9,16 +9,16 @@ Related publication: **Pishchulin, L., Wuhrer, S., Helten, T., Theobalt, C., and
 Installation guideline for the modified MPII's Human Shape
 ---
 
-1. The original MPII's Human Shape algorithm uses a well-known optimization library, L-BFGS-B, which was initially(?) developed based on Fortran language. To use Fortran language directly in Matlab, we need 'Intel Visual Fortran Compiler' which is not for free (price: 400 USD per year). Thanks to [Dr. Stephen Becker](http://amath.colorado.edu/faculty/becker/), a professor at University of Colorado at Boulder, I could use the L-BFGS-B algorithm without purchasing the Intel Visual Fortran Compiler. Instead of using the L-BFGS-B included in MPII's source code, I used a Dr. Becker's L-BFGS-B library which was converted to C language and shared through [Matlab FileExchange](https://nl.mathworks.com/matlabcentral/fileexchange/35104-lbfgsb--l-bfgs-b--mex-wrapper) and [Github](https://github.com/stephenbeckr/L-BFGS-B-C). But, do not download the source code from the Matlab File Exchange that is an old version, but download the L-BFGS-B from his GitHub. By the way, the L-BFGS-B is already included in my modified Human Shape, so you don't actually need to get it.
+1. The original MPII's Human Shape algorithm uses a well-known optimization library, L-BFGS-B, which was initially(?) developed based on Fortran language. To use Fortran language directly in Matlab, we need 'Intel Visual Fortran Compiler' which is not for free (price: 400 USD per year). Thanks to [Dr. Stephen Becker](http://amath.colorado.edu/faculty/becker/), a professor at University of Colorado at Boulder, I could use the L-BFGS-B algorithm without purchasing the Intel Visual Fortran Compiler. Instead of using the L-BFGS-B included in MPII's source code, I used Dr. Becker's C-based L-BFGS-B library (with the mex compiler for Matlab), which is shared through [Matlab FileExchange](https://nl.mathworks.com/matlabcentral/fileexchange/35104-lbfgsb--l-bfgs-b--mex-wrapper) and [Github](https://github.com/stephenbeckr/L-BFGS-B-C). Dr. Becker's L-BFGS-B is included in my modified Human Shape, so you don't need to get it.
 
 
 1. Clone or download the **modified MPII's Human Shape** from my [GitHub](https://github.com/HandongHCI/humanshape).
 
 1. Install `Microsoft Visual Studio Pro 2017`. It should be the `Professional` version, not the `Community` version. When you install the Visual Studio Pro 2017, `VC++ 2017 toolset` and `Windows 10 SDK` should be checked.
 
-1. Run `compile_mex.m` file which is located in the folder `\external\lbfgsb_C\`, which is Dr. Becker's work.
+1. In Matlab, run `compile_mex.m` located in the folder `\external\lbfgsb_C\`, which is Dr. Becker's work.
 
-1. In your Matlab, go to the folder same to where `demo.m` locates. Then, copy and paste the following code in the Matlab command line.
+1. In Matlab, go to the folder same to where `demo.m` locates. Then, copy and paste the following code in the Matlab command line.
 
     ```
     mex -output shapepose.mexw64 -Ishapemodel\lib\nr\ -Ishapemodel\lib\include\ "shapemodel\shapepose.cpp" "shapemodel\Show.cpp" "shapemodel\NMath.cpp" "shapemodel\NRBM.cpp" "shapemodel\paramMap.cpp" "shapemodel\CTMesh-30DOF.cpp"
