@@ -37,3 +37,9 @@ Notes
 1. `fitting\NRD.m` file has been revised to use Stephen Becker's `L-BFGS-B`.
 
 1. In `fitting\getOptionsOptimizer.m`, `options.UseParallel = 1;` is added to run the Matlab optimization with Parallel Computing Toolbox in order to increase the calculation speed. If you don't have this toolbox, please delete or comment this line, or make the value 0 (`options.UseParallel = 0;`).
+
+
+To-do
+---
+
+1. Change of the template model (fullbody, also hand) with different landmark sets.
