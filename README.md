@@ -45,3 +45,10 @@ To-do
 ---
 
 1. Change of the template model (fullbody, also hand) with different landmark sets.
+
+
+Q&A
+---
+Dr. Wonsup Lee (W (dot) Lee (at) Handong (dot) edu) at Handong Global University
+GitHub: https://handonghci.github.io/WonsupLee/
+ResearchGate: https://www.researchgate.net/profile/Wonsup_Lee
