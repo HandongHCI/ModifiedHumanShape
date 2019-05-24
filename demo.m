@@ -50,10 +50,8 @@ fprintf('[[register human scan]]\n\n');
 
 files = dir('data/*.ply');
 path = 'data/';
-starting = 16;
 
-for i = starting:length(files)
-% for i = starting
+for i = 1:length(files)
     fprintf('[%04d/%04d]\n', i, length(files));
     
     scanName = files(i).name(1:4);

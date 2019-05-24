@@ -1,5 +1,5 @@
 if (~isdeployed)
-    addpath([pwd '/external/lbfgsb-for-matlab/']);
+    addpath([pwd '/external/lbfgsb_C/Matlab']);
     addpath([pwd '/shapemodel/']);
     addpath([pwd '/fitting/']);
     addpath([pwd '/learning/']);
