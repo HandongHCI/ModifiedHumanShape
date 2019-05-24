@@ -3,7 +3,7 @@ Modified MPII's Human Shape
 
 Please refer the  discription and source code of the original Human Shape from MPII's [website](http://humanshape.mpi-inf.mpg.de/) and [GitHub](https://github.com/leonid-pishchulin/humanshape).
 
-Related publication: **Pishchulin, L., Wuhrer, S., Helten, T., Theobalt, C., and Schiele, B. (2015). Building Statistical Shape Spaces for 3D Human Modeling. _ArXiv_** ([see](http://arxiv.org/abs/1503.05860))
+Related publication: **Pishchulin, L., Wuhrer, S., Helten, T., Theobalt, C., and Schiele, B. (2015). Building Statistical Shape Spaces for 3D Human Modeling. _ArXiv_** ([read](http://arxiv.org/abs/1503.05860))
 
 
 Installation guideline for the modified MPII's Human Shape
