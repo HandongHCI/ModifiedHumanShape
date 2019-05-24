@@ -29,10 +29,12 @@ Installation guideline for the modified MPII's Human Shape
     mex -largeArrayDims -output rigidAlign.mexw64 -Imatlabroot\extern\include\ "evaluation\statQuality\rigidAlign.cpp" "evaluation\statQuality\GeneralizedProcrustes.cpp" -Lmatlabroot\extern\lib\win64\microsoft\ -llibmwblas.lib -llibmwlapack.lib
     ```
 
+1. Get necessary models (approx. 1.8 GB) from http://humanshape.mpi-inf.mpg.de/. These are necessary to run the code. Put the unzipped models in `\experiments\models\`, then edit `p.modelInDir` variable in `fitting\expParams.m` to point one of the models (e.g., `models/caesar`, but it is already set in the modification of Human Shape).
+
+1. Run `demo.m`.
+
 Notes
 ---
-
-1. Get necessary models (approx. 1.8 GB) from http://humanshape.mpi-inf.mpg.de/. These are necessary to run the code. Put the unzipped models in `\experiments\models\`, then edit `p.modelInDir` variable in `fitting\expParams.m` to point one of the models (e.g., `models/caesar`)
 
 1. `fitting\NRD.m` file has been revised to use Dr. Becker's `L-BFGS-B`.
 
