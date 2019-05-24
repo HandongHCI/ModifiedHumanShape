@@ -17,7 +17,7 @@
 %}
 
 function [template, dist] = fitPose(scan,template,modelDir,bScale)
-fprintf('\nfitPose()\n');
+fprintf('      - running optimization... ');
 
 if (nargin < 4)
     bScale = true;
@@ -62,7 +62,7 @@ template.points = pointsSM_best;
 template.poseParams = optPoseParam;
 dist = sqrt(sum((landmarksScan - pointsSM_best(landmarksIdxsSM,:)).^2,2));
 
-fprintf('done\n');
+fprintf('done\n\n');
 
     %% objective function
     function E = optFunc(params)

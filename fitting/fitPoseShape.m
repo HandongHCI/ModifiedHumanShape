@@ -17,19 +17,19 @@
 %}
 
 function [template,distNN] = fitPoseShape(scan,template,modelDir,threshNormAngle,bFitShape,bScale)
-fprintf('\nfitPoseShape()\n');
+fprintf('      - running optimization...\n');
 
 if (nargin < 4)
     threshNormAngle = 60; % degrees
-end;
+end
 
 if (nargin < 5)
     bFitShape = true; 
-end;
+end
 
 if (nargin < 6)
     bScale = true;
-end;
+end
 
 poseParams = template.poseParams;
 
@@ -87,15 +87,16 @@ if (~bScale)
     shapeUB(end) = template.poseParams(end);
 end
 
-eps_err = 1e-3;
+eps_err = 0.01; % changed from original value (= 0.001)
 errPrev = err+eps_err+1;
 
 %% optimization loop
+cnt = 0;
 while abs(errPrev - err) > eps_err    
-    
+    cnt = cnt + 1;
     errPrev = err;
     
-    fprintf('fit pose\n');
+    fprintf('        [iter %d] fitting pose... ', cnt);
     [poseParams, ~] = fmincon(@PoseFunc,poseParams,[],[],[],[],poseLB,poseUB,[],options);
     [pointsSM, ~] = shapepose(poseParams(1:end-1),shapeParams(1:end-1),evectors,modelDir);
     sc = poseParams(end);
@@ -115,9 +116,9 @@ while abs(errPrev - err) > eps_err
         % use only subset of vertices
         isValidNN = isValidNN.*template.idxsUse;
     end
-    fprintf('sum(isValidNN): %1.1f\n',sum(isValidNN));
+%     fprintf('sum(isValidNN): %1.1f\n',sum(isValidNN));
     if (bFitShape)
-        fprintf('fit shape\n');
+        fprintf('fitting shape... ');
         shapeParams(end) = sc;
         [shapeParams, ~] = fmincon(@ShapeFunc, shapeParams,[],[],[],[],shapeLB,shapeUB,[],options);
         % new model code
@@ -145,6 +146,7 @@ while abs(errPrev - err) > eps_err
     err = distAll / sum(isValidNN);
     
     poseParams(end) = sc;
+    fprintf('done\n');
 end
 
 %% output
@@ -157,7 +159,6 @@ template.poseParams = poseParams;
 template.points = pointsSM_best;
 template.pointsIdxsScanNN = idxsNN;
 template.pointsHasValidNN = isValidNN;
-fprintf('done\n');
 
     %% fit pose objective function
     function E = PoseFunc(poseParam)

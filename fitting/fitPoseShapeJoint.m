@@ -22,7 +22,7 @@ fprintf('fitPoseShapeJoint()\n');
 
 if (nargin < 4)
     threshNormAngle = 60; % degrees
-end;
+end
 
 % load idxHand
 load('VertexIdxSpecParts', 'idxHand');

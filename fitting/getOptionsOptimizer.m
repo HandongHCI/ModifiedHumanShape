@@ -18,11 +18,13 @@
 
 function [options,poseLB,poseUB,shapeLB,shapeUB] = getOptionsOptimizer(modelDir,template)
 
-options = optimset('Display', 'iter');
+options = optimset('Display', 'off');
 options.MaxFunEvals = 10000;
 options.DiffMinChange = 0.0001;
 options.Algorithm = 'interior-point';
 options.LargeScale = 'on';
+options.UseParallel = 1;
+% options.HessianApproximation = 'lgfgs';
 
 if (isfield(template, 'poseLB') && isfield(template, 'poseUB') && ~isempty(template.poseLB) && ~isempty(template.poseUB))
     poseUB = template.poseUB;

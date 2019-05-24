@@ -1,18 +1,21 @@
-HUMANSHAPE - 3D Human Shape Modeling, Fitting and Evaluation
+Modified MPII's Human Shape
 =====
 
-This short documentation describes steps necessary to compile and run the 3D human body shape building, manipulation, fitting and evaluation presented in the paper:
+Please refer the  discription and source code of the original Human Shape from their [website (http://humanshape.mpi-inf.mpg.de/)](http://humanshape.mpi-inf.mpg.de/) and [GitHub (https://github.com/leonid-pishchulin/humanshape)](https://github.com/leonid-pishchulin/humanshape).
 
-**Leonid Pishchulin, Stefanie Wuhrer, Thomas Helten, Christian Theobalt and Bernt Schiele  
+Related publication:
+
+Leonid Pishchulin, Stefanie Wuhrer, Thomas Helten, Christian Theobalt and Bernt Schiele  
 Building Statistical Shape Spaces for 3D Human Modeling
-In _ArXiv_, March 2015**
+In _ArXiv_, March 2015
 
-http://humanshape.mpi-inf.mpg.de/
 
-Compiling
+Installation Guideline for the modified MPII’s Human Shape
 ---
 
-This code was developed under Linux (Debian _wheezy_, 64 bit) and was tested only in this environment.  
+1. The original MPII’s Human Shape algorithm uses a well-known optimization library, L-BFGS-B which was originally(?) developed based on Fortran language. To use Fortran language directly in Matlab, we need ‘Intel Visual Fortran Compiler’ which is not for free (price: 400 USD per year). Instead of using the L-BFGS-B included in MPII's source code, I used a different L-BFGS-B library which was converted to C language and shared through [Matlab FileExchange (https://nl.mathworks.com/matlabcentral/fileexchange/35104-lbfgsb--l-bfgs-b--mex-wrapper)](https://nl.mathworks.com/matlabcentral/fileexchange/35104-lbfgsb--l-bfgs-b--mex-wrapper) and [Github (https://github.com/stephenbeckr/L-BFGS-B-C)](https://github.com/stephenbeckr/L-BFGS-B-C) by Stephen Becker. Also, he made a ‘Mex wrapper’ which is to create a mex file to use the C code in Matlab programming. By the way, do not download the source code from the Matlab File Exchange. That is an old version. Download the L-BFGS-B from his GitHub (https://github.com/stephenbeckr/L-BFGS-B-C). But, this ‘Mex wrapper’ is included in my GitHub, so you don’t actually need to download it.
+
+
 
 1. Set `MATLAB_HOME` in following make files:
 
