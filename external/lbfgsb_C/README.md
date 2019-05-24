@@ -1,5 +1,5 @@
 # L-BFGS-B-C
-For detailss see Stephen Becker's [Github](https://github.com/stephenbeckr/L-BFGS-B-C)
+For detailss see Dr. Stephen Becker's [Github](https://github.com/stephenbeckr/L-BFGS-B-C)
 
 # License
 L-BFGS-B is released under the BSD 3-clause license, and I am releasing this software under the same license. See LICENSE for details
