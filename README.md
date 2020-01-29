@@ -14,7 +14,7 @@ Installation guideline for the modified MPII's Human Shape
 
 1. Clone or download the **modified MPII's Human Shape** from my [GitHub](https://github.com/HandongHCI/humanshape).
 
-1. Install `Microsoft Visual Studio Pro 2017`. It should be the `Professional` version, not the `Community` version. When you install the Visual Studio Pro 2017, `VC++ 2017 toolset` and `Windows 10 SDK` should be checked.
+1. Install `Microsoft Visual Studio Pro`. It should be the `Professional` version, not the `Community` version. When you install the Visual Studio Pro 2017, `VC++ 2017 toolset` and `Windows 10 SDK` should be checked.
 
 1. In Matlab, run `compile_mex.m` located in the folder `\external\lbfgsb_C\`, which is Dr. Becker's work.
 
