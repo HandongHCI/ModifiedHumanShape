@@ -66,7 +66,7 @@ E_SMOOTH_Hands = 0;
 E_SMOOTH_Gen = 0;
 
 nSmoothAdd = 0;
-for i = 1:NUM_TL_HEAD;
+for i = 1:NUM_TL_HEAD
     NNvertSMPoint = NN_VERT_TL{TL_HEAD_IDX(1,i),1};
     numNNvert = size(NNvertSMPoint,2);
     for j = 1:numNNvert
@@ -75,7 +75,7 @@ for i = 1:NUM_TL_HEAD;
     nSmoothAdd = nSmoothAdd + numNNvert;
 end
 
-for i = 1:NUM_TL_HAND;
+for i = 1:NUM_TL_HAND
     NNvertSMPoint = NN_VERT_TL{TL_HAND_IDX(1,i),1};
     numNNvert = size(NNvertSMPoint,2);
     for j = 1:numNNvert
@@ -84,7 +84,7 @@ for i = 1:NUM_TL_HAND;
     nSmoothAdd = nSmoothAdd + numNNvert;
 end
 
-for i = 1:NUM_TL_ALL;
+for i = 1:NUM_TL_ALL
     NNvertSMPoint = NN_VERT_TL{TL_ALL_IDX(1,i),1};
     numNNvert = size(NNvertSMPoint,2);
     for j = 1:numNNvert

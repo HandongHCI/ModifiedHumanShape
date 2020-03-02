@@ -61,16 +61,16 @@ function p = expParams(expidx)
             p.colorIdxs = [6 1];
             p.numLandmark = 73;
         case 1
-            % need to modify %       p.landmarksSM = {[p.rootDir 'fitting/landmarksIdxs73.mat']};
-            % need to modify %       p.facesSM = [p.rootDir 'fitting/facesShapeModel.mat'];
-            % need to modify %       p.modelMesh = [p.rootDir 'shapemodel/model.dat'];
+            p.landmarksSM = {[p.rootDir 'fitting/landmarksIdxs73_newTemplate.mat']};
+            p.facesSM = [p.rootDir 'fitting/facesShapeModel_newTemplate.mat'];
+            p.modelMesh = [p.rootDir 'shapemodel/model_newTemplate.dat'];
             p.figures = '';
-            
-            p.name = 'init-rnd-3-W';
+
+            p.name = 'newModel/output';
             p.fitDir = [p.expDir p.name];
             p.initDir = p.fitDir;
-            % need to modify %       p.modelInDir = [p.expDir 'models/caesar'];
-            p.modelOutDir = [p.fitDir '/model'];
+            p.modelInDir = [p.expDir 'newModel/input'];
+            p.modelOutDir = [p.expDir 'newModel/output'];
             p.bInit = true;
             p.nrdWidx = 3;
             p.nPCA = 20;

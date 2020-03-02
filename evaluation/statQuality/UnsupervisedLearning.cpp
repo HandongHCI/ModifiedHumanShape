@@ -19,6 +19,7 @@
 #include "UnsupervisedLearning.h"
 #include <iostream>
 #include <exception>
+
 UnsupervisedLearning::UnsupervisedLearning()
 {
 	samplesByClass = NULL;
@@ -223,11 +224,8 @@ void UnsupervisedLearning::performPCA(int inputDim, int outputDim, double * samp
         {
             for(j = 0; j < inputDim; j++)
                 sample[j] = samples[i*inputDim + j] - learnedMean[j];
-            //clapack::dgemv_(&trans, &nM, &nN, &alpha, reductionMatrix, &nM, sample, &incx, 
-            //	&beta, result, &incx);
-
-            dgemv(&trans, &nM, &nN, &alpha, reductionMatrix, &nM, sample, &incx, 
-                &beta, result, &incx);
+            //clapack::dgemv_(&trans, &nM, &nN, &alpha, reductionMatrix, &nM, sample, &incx, &beta, result, &incx);
+            dgemv(&trans, &nM, &nN, &alpha, reductionMatrix, &nM, sample, &incx, &beta, result, &incx);
 
             for(j = 0; j < outputDim; j++)
             {
@@ -286,11 +284,8 @@ void  UnsupervisedLearning::performPCASpaceRestricted(int inputDim, int outputDi
 	if((work == NULL) || (iwork == NULL) || (ifail == NULL))
 		return;
 
-	//clapack::dsyevx_(&jobz, &range, &uplo, &nN, learnedCovariance, &nN, &vl, &vl, &il, &il,
-	//	&abstol, &m, eigenvalues, eigenvectors, &nN, work, &lwork, iwork, ifail, &info);
-    
-   dsyevx(&jobz, &range, &uplo, &nN, learnedCovariance, &nN, &vl, &vl, &il, &il,
-		&abstol, &m, eigenvalues, eigenvectors, &nN, work, &lwork, iwork, ifail, &info);
+	//clapack::dsyevx_(&jobz, &range, &uplo, &nN, learnedCovariance, &nN, &vl, &vl, &il, &il, &abstol, &m, eigenvalues, eigenvectors, &nN, work, &lwork, iwork, ifail, &info);
+    dsyevx(&jobz, &range, &uplo, &nN, learnedCovariance, &nN, &vl, &vl, &il, &il, &abstol, &m, eigenvalues, eigenvectors, &nN, work, &lwork, iwork, ifail, &info);
 
 	//check for correctness:
 	if(info != 0)
@@ -519,8 +514,7 @@ void UnsupervisedLearning::reduceDimensionality(int numTestSamples, int inputDim
 		//align the point along the learned principal axes:
 		for(j = 0; j < inputDim; j++)
 			unalignedPoint[j] = samples[i*inputDim+j] - mean[j];
-		dgemv(&trans, &nN, &nN, &alpha, reductionMatrix, &nN, unalignedPoint, &incx, 
-			&beta, alignedPoint, &incx);
+		dgemv(&trans, &nN, &nN, &alpha, reductionMatrix, &nN, unalignedPoint, &incx, &beta, alignedPoint, &incx);
 		
 		//finally store the relevant dimensions in outputSamples:
 		std::list<int>::iterator it;
@@ -589,7 +583,7 @@ std::cout<<componentCounter<<std::endl;
 			returnList.push_back(helpList[i].index);
 	};
 	componentCounter = returnList.size();
-std::cout<<componentCounter<<std::endl;
+	std::cout<<componentCounter<<std::endl;
 	//populate the outputSample matrix:
 	for(i = 0; i < numberSamples; i++)
 	{

@@ -38,7 +38,7 @@ using namespace std;
 #define SMOOTHMODEL true
 
 int getpose(const string inputDir, const double* motionParamsIn, const double* shapeParamsIn, double *eigenVectorsIn,
-	    int numEigenVectors, double* pointsOut, double* jointsOut){
+      int numEigenVectors, double* pointsOut, double* jointsOut){
 
   // ************** Read Input ************** //
   string s = inputDir;
@@ -79,7 +79,7 @@ int getpose(const string inputDir, const double* motionParamsIn, const double* s
   
   // Read object model
   CMatrix<float> mRBM(4,4);
-  NRBM::RVT2RBM(&mParams, mRBM);	
+  NRBM::RVT2RBM(&mParams, mRBM);  
   CMesh initMesh;
   
   initMesh.readModel(aModelFile.c_str(), SMOOTHMODEL);
@@ -137,14 +137,14 @@ int getpose(const string inputDir, const double* motionParamsIn, const double* s
 }
 
 void mexFunction(int nlhs, mxArray *plhs[],
-		 int nrhs, const mxArray *prhs[]) {
+     int nrhs, const mxArray *prhs[]) {
   int m, n;
   
-  double *pointsOut; /* 6449x3*/
+  double *pointsOut; /* 13249 x 3*/
   double *jointsOut; /* 24x8: jid directions_XYZ positions_XYZ jparent_id*/
   double *motionParamsIn;  /* 20x1*/
   double *shapeParamsIn;  /* 31x1*/
-  double *eigenVectorsIn; /* nEigenVec x 6449 x 3*/
+  double *eigenVectorsIn; /* nEigenVec x 13249 x 3*/
   
   if (nrhs < 4){
     mexErrMsgTxt("Not enough input arguments");
@@ -152,7 +152,7 @@ void mexFunction(int nlhs, mxArray *plhs[],
   }
   
   /* Find the dimensions of the data */
-  m = 6449; /*mxGetM(prhs[0]);*/
+  m = 13249; /*mxGetM(prhs[0]);*/
   n = 3; /*mxGetN(prhs[0]);*/
   
   /* Create an mxArray for the output data */

@@ -118,10 +118,10 @@ void ErrorEvaluation::compactness(int startNumPrincipalComponents, int endNumPri
     for(int j = 0; j < dimension; ++j)
       ptrMean[j]=mean[j];
     
-    float uppBound=3*sqrt(eigenvalues[0]);
-    float lowBound=-3*sqrt(eigenvalues[0]);
+    float uppBound=3*(float)sqrt(eigenvalues[0]);
+    float lowBound=-3*(float)sqrt(eigenvalues[0]);
     float range = uppBound - lowBound;
-    double randomSample;
+    double randomSample=0;
     
     for(int m=0; m<pcaDim; m++)
       reducedSample[m]=(randomSample*range) +lowBound;
@@ -144,8 +144,8 @@ void ErrorEvaluation::generalization(int startNumPrincipalComponents, int endNum
       startNumPrincipalComponents = swap;
     }
   
-  int  j, k;
-  int l,m,n;
+  int j, k;
+  // int l,m,n;
   int nPoints = dimension/3;
 
   if (numTrainingMeshes > numMeshes - 1)
@@ -160,7 +160,7 @@ void ErrorEvaluation::generalization(int startNumPrincipalComponents, int endNum
   double sum=0.0;
   
   //Counting Time
-  clock_t beginT, endT;
+  // clock_t beginT, endT;
   
   Mle mle1;
   double * learnedMean1 = new double[1];
@@ -222,7 +222,7 @@ void ErrorEvaluation::generalization(int startNumPrincipalComponents, int endNum
       
       // compute the distance between the original and reconstructed sample
       distances = 0;
-      if (~bUseGT)
+      if (!bUseGT)
 	for(k = 0; k < nPoints; k++)
 	  {
 	    auxsum = pow(dataMatrix[idSample*dimension             + k] - reconstructedSample[k],             2.0) +
@@ -293,7 +293,7 @@ void ErrorEvaluation::specificity(int startNumPrincipalComponents, int endNumPri
   
   int i, j, k;//, numPrincipalComponents;
   double distance, returnVal = 0;
-  int l,m,n;
+  // int l,m,n;
   int nPoints=dimension/3;
   double auxsum=0.0;
   
@@ -366,7 +366,7 @@ void ErrorEvaluation::specificity(int startNumPrincipalComponents, int endNumPri
 	{
 	  distance = 0;
 	  
-	  if (~bUseGT)
+	  if (!bUseGT)
 	    for(k = 0; k < nPoints; k++)
 	      {
 		auxsum = pow(dataMatrix[j*dimension             + k] - randomShape[k],             2.0)+

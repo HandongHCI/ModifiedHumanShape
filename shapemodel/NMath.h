@@ -145,12 +145,12 @@ namespace NMath {
   // arctan
   inline float arctan(float x, float y) {
     if (x == 0.0)
-      if (y >= 0.0) return 0.5 * 3.1415926536;
-      else return 1.5 * 3.1415926536;
+      if (y >= 0.0) return 0.5F * 3.1415926536F;
+      else return 1.5F * 3.1415926536F;
     else if (x > 0.0)
       if (y >= 0.0) return atan (y/x);
-      else return 2.0 * 3.1415926536 + atan (y/x);
-    else return 3.1415926536 + atan (y/x);
+      else return 2.0F * 3.1415926536F + atan (y/x);
+    else return 3.1415926536F + atan (y/x);
   }
 
   // random
@@ -164,7 +164,7 @@ namespace NMath {
     float a = random();
     float b = random();
     // assemble a N(0,1) number c according to Box-Muller */
-    if (a > 0.0) return sqrt(-2.0*log(a)) * cos(2.0*3.1415926536*b);
+    if (a > 0.0) return sqrt(-2.0F*log(a)) * cos(2.0F*3.1415926536F*b);
     else return 0;
   }
 

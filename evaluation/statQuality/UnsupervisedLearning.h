@@ -24,6 +24,7 @@
 #include <stdlib.h>
 #include <search.h>
 #include <list>
+#include <algorithm>
 
 struct SComponent
 {

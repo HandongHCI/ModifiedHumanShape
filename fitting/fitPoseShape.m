@@ -34,7 +34,7 @@ end
 poseParams = template.poseParams;
 
 % load idxHand
-load('VertexIdxSpecParts', 'idxHand');
+load('VertexIdxSpecPartsNew', 'idxHand');
 
 % optimize over global scale during pose and shape fitting
 sc = poseParams(end);
@@ -43,6 +43,7 @@ shapeParams = [template.shapeParams sc];
 load([modelDir '/evectors'], 'evectors');
 assert(template.nPCA <= size(evectors,1));
 evectors = evectors(1:template.nPCA,:);
+evectors(:, :) = 0;
 
 pointsSM = shapepose(poseParams(1:end-1), shapeParams(1:end-1),evectors,modelDir);
 pointsSM = pointsSM * sc;
@@ -96,7 +97,7 @@ while abs(errPrev - err) > eps_err
     cnt = cnt + 1;
     errPrev = err;
     
-    fprintf('        [iter %d] fitting pose... ', cnt);
+    fprintf('        [iter %d] pose fitting. ', cnt);
     [poseParams, ~] = fmincon(@PoseFunc,poseParams,[],[],[],[],poseLB,poseUB,[],options);
     [pointsSM, ~] = shapepose(poseParams(1:end-1),shapeParams(1:end-1),evectors,modelDir);
     sc = poseParams(end);
@@ -118,7 +119,7 @@ while abs(errPrev - err) > eps_err
     end
 %     fprintf('sum(isValidNN): %1.1f\n',sum(isValidNN));
     if (bFitShape)
-        fprintf('fitting shape... ');
+        fprintf('shape fitting. ');
         shapeParams(end) = sc;
         [shapeParams, ~] = fmincon(@ShapeFunc, shapeParams,[],[],[],[],shapeLB,shapeUB,[],options);
         % new model code
@@ -146,7 +147,7 @@ while abs(errPrev - err) > eps_err
     err = distAll / sum(isValidNN);
     
     poseParams(end) = sc;
-    fprintf('done\n');
+    fprintf('done (%.3f?)\n', err);
 end
 
 %% output
@@ -164,16 +165,27 @@ template.pointsHasValidNN = isValidNN;
     function E = PoseFunc(poseParam)
         scTmp = poseParam(1,32);
         [pointsSM, ~] = shapepose(poseParam(1:end-1), shapeParams(1:end-1),evectors,modelDir);
+        while sum(isnan(pointsSM)) > 0
+%             disp('countinued');
+            [pointsSM, ~] = shapepose(poseParam(1:end-1), shapeParams(1:end-1),evectors,modelDir);
+        end
         pointsSM = scTmp * pointsSM;
         pointsScanNN = scan.points(idxsNN, :);
         dist = sqrt(sum((pointsScanNN - pointsSM) .^ 2, 2));
         E = sum(dist.*isValidNN);
+        if sum(isnan(E)) > 0
+            disp("error");
+        end
     end
 
     %% fit shape objective function
     function E = ShapeFunc(shapeParam)
         scTmp = shapeParam(end);
         [pointsSM, ~] = shapepose(poseParams(1:end-1), shapeParam(1:end-1),evectors,modelDir);
+        while sum(isnan(pointsSM)) > 0
+%             disp('countinued');
+            [pointsSM, ~] = shapepose(poseParams(1:end-1), shapeParam(1:end-1),evectors,modelDir);
+        end
         pointsSM = scTmp * pointsSM;
         pointsScanNN = scan.points(idxsNN, :);
         dist = sqrt(sum((pointsScanNN - pointsSM) .^ 2, 2));

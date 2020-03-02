@@ -279,7 +279,7 @@ inline void CMesh::projectPoint(CMatrix<float>& P, float X, float Y, float Z, in
 	float hz = P.data()[8]*X + P.data()[9]*Y + P.data()[10]*Z + P.data()[11];
 
 
-	float invhz = 1.0/hz;
+	float invhz = 1.0F/hz;
 	x = (int)(hx*invhz+0.5);
 	y = (int)(hy*invhz+0.5);
 }
@@ -290,7 +290,7 @@ inline void CMesh::projectPoint(CMatrix<float>& P, float X, float Y, float Z, fl
 	float hy = P.data()[4]*X + P.data()[5]*Y + P.data()[6]*Z + P.data()[7];
 	float hz = P.data()[8]*X + P.data()[9]*Y + P.data()[10]*Z + P.data()[11];
 
-	float invhz = 1.0/hz;
+	float invhz = 1.0F/hz;
 	x = hx*invhz;
 	y = hy*invhz;
 }

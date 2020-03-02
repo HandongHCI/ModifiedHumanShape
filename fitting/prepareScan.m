@@ -44,7 +44,7 @@ rng(42);
 
         %% subsample scan
     %     nPointsSample = 16000;
-        nPointsSample = min(6449*3,size(pointsAllScan,1));
+        nPointsSample = min(13249*3,size(pointsAllScan,1));
         fprintf('    - nPointsSample: %d/%d\n',nPointsSample,size(pointsAllScan,1));
 
     %     if (i == 1)

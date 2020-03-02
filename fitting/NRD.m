@@ -65,7 +65,7 @@ function [template, dist] = NRD(scan,template,nrdWidx)
     NUM_TL_POINTS = size(template.points,1);
 
     % head and hand vertex idxs
-    load('VertexIdxSpecParts','idxHead','idxHand','idxFoot');
+    load('VertexIdxSpecPartsNew','idxHead','idxHand','idxFoot');
     TL_HEAD_IDX = idxHead;
     TL_HAND_IDX = idxHand;
 
@@ -125,7 +125,7 @@ function [template, dist] = NRD(scan,template,nrdWidx)
     CONF_SC_POINTS = CONF_SC_POINTS .* IS_VALID_NN;
 
     [wrSmoothBody,wrSmoothHand,wrSmoothHead,wrLandmarks] = getWeightReduceFactor(nrdWidx);
-    fprintf('    - nrdWidx: %d\n',nrdWidx);
+    fprintf('      - nrdWidx: %d\n',nrdWidx);
 
     %% initial NRD: LM + SMOOTH are considered 
     W_DATA = 0;
@@ -136,10 +136,10 @@ function [template, dist] = NRD(scan,template,nrdWidx)
 
     pointsTemplate = template.points;
 
-    fprintf('    - W_DATA: %1.2f; W_SMOOTH_HEAD: %1.2f; W_SMOOTH_HANDS: %1.2f; W_SMOOTH_GEN: %1.2f; W_LM: %1.2f\n', W_DATA, W_SMOOTH_HEAD, W_SMOOTH_HANDS, W_SMOOTH_GEN, W_LM);
+    fprintf('      - W_DATA: %1.2f; W_SMOOTH_HEAD: %1.2f; W_SMOOTH_HANDS: %1.2f; W_SMOOTH_GEN: %1.2f; W_LM: %1.2f\n', W_DATA, W_SMOOTH_HEAD, W_SMOOTH_HANDS, W_SMOOTH_GEN, W_LM);
     distInit = sqrt(sum((pointsTemplate - NN_SC).^2,2))'*IS_VALID_NN;
-    fprintf('    - distInit: %f \n', distInit);
-    fprintf('    - [initial NRD]\n');
+    fprintf('      - distInit: %f \n', distInit);
+    fprintf('      - [initial NRD]\n');
 
     %which lbfgsb
     try
@@ -167,7 +167,7 @@ function [template, dist] = NRD(scan,template,nrdWidx)
     err = distAll/sum(IS_VALID_NN);
 
     Amatrix = reshape(Amatrix,[16*NUM_TL_POINTS 1]);
-    fprintf('      - ERR: %1.2f; NUM_VALID_NN: %d; distAll: %1.2f; E_DATA: %1.2f; E_SMOOTH: %1.2f; E_LM: %1.2f; E_TOTAL: %1.2f \n', distAll/sum(IS_VALID_NN), sum(IS_VALID_NN), distAll, E_DATA, E_SMOOTH, E_LM, E_TOTAL);
+    fprintf('        - ERR: %1.2f; NUM_VALID_NN: %d; distAll: %1.2f; E_DATA: %1.2f; E_SMOOTH: %1.2f; E_LM: %1.2f; E_TOTAL: %1.2f \n', distAll/sum(IS_VALID_NN), sum(IS_VALID_NN), distAll, E_DATA, E_SMOOTH, E_LM, E_TOTAL);
 
     %% NRD: DATA + LM + SMOOTH 
     eps_err = 1e-3;
@@ -179,7 +179,7 @@ function [template, dist] = NRD(scan,template,nrdWidx)
     W_LM = 1e-3;
 
     iter = 0;
-    fprintf('      - W_DATA: %1.2f; W_SMOOTH_HEAD: %1.2f; W_SMOOTH_HANDS: %1.2f; W_SMOOTH_GEN: %1.2f; W_LM: %1.2f\n', W_DATA, W_SMOOTH_HEAD, W_SMOOTH_HANDS, W_SMOOTH_GEN, W_LM);
+    fprintf('        - W_DATA: %1.2f; W_SMOOTH_HEAD: %1.2f; W_SMOOTH_HANDS: %1.2f; W_SMOOTH_GEN: %1.2f; W_LM: %1.2f\n', W_DATA, W_SMOOTH_HEAD, W_SMOOTH_HANDS, W_SMOOTH_GEN, W_LM);
 
     while (abs(errPrev - err) > eps_err && W_SMOOTH_GEN >= W_DATA*1e+3)
 

@@ -21,8 +21,8 @@
 // #if !defined(_WIN32)
 // #define dgemm dgemm_
 // #define dsyevx dsyevx_
-// #define  dgemv dgemv_ 
-// #define  dlamch dlamch_
+// #define dgemv dgemv_ 
+// #define dlamch dlamch_
 // #endif
 
 
@@ -69,7 +69,7 @@ bool GaussVector::computeEigen(double * covMatrix)
     //find eigenvectors and eigenvalues:
 	//initialize the input values to the CLAPACK function dsyevx
 	
-    //Monica type change long int by  ptrdiff_t
+    //Monica type change long int by ptrdiff_t
 
     char jobz = 'V';
 	char range = 'A';
@@ -80,8 +80,8 @@ bool GaussVector::computeEigen(double * covMatrix)
 	ptrdiff_t il = 0;
 	char s = 'S';
     
- // 	double abstol = 2 * clapack::dlamch_(&s);
- 	double abstol = 2 * dlamch_ (&s);
+ 	// double abstol = 2 * clapack::dlamch_(&s);
+ 	double abstol = 2 * dlamch(&s);
     
     ptrdiff_t m;
 	ptrdiff_t lwork = 8 * dimension;
@@ -93,11 +93,8 @@ bool GaussVector::computeEigen(double * covMatrix)
 	if((work == NULL) || (iwork == NULL) || (ifail == NULL))
 		return false;
 
-// 	clapack::dsyevx_(&jobz, &range, &uplo, &nN, covarianceMat, &nN, &vl, &vl, &il, &il,
-// 		&abstol, &m, eigenvalues, eigenvectors, &nN, work, &lwork, iwork, ifail, &info);
-
-    dsyevx_(&jobz, &range, &uplo, &nN, covarianceMat, &nN, &vl, &vl, &il, &il,
-		&abstol, &m, eigenvalues, eigenvectors, &nN, work, &lwork, iwork, ifail, &info);
+	// clapack::dsyevx_(&jobz, &range, &uplo, &nN, covarianceMat, &nN, &vl, &vl, &il, &il,	&abstol, &m, eigenvalues, eigenvectors, &nN, work, &lwork, iwork, ifail, &info);
+    dsyevx(&jobz, &range, &uplo, &nN, covarianceMat, &nN, &vl, &vl, &il, &il, &abstol, &m, eigenvalues, eigenvectors, &nN, work, &lwork, iwork, ifail, &info);
 
     
     
@@ -128,11 +125,8 @@ bool GaussVector::computeEigen(double * covMatrix)
 	double alpha = 1.0;
 	double beta = 0.0;
 
-	//clapack::dgemm_(&transa, &transb, &nN, &nN, &nN, &alpha, eigenvectors, &nN, 
-		//sqrtEigenvalueMatrix, &nN, &beta, multMatrix, &nN);
-        
-        dgemm_(&transa, &transb, &nN, &nN, &nN, &alpha, eigenvectors, &nN, 
-		sqrtEigenvalueMatrix, &nN, &beta, multMatrix, &nN);
+	//clapack::dgemm_(&transa, &transb, &nN, &nN, &nN, &alpha, eigenvectors, &nN, sqrtEigenvalueMatrix, &nN, &beta, multMatrix, &nN);
+    dgemm(&transa, &transb, &nN, &nN, &nN, &alpha, eigenvectors, &nN, sqrtEigenvalueMatrix, &nN, &beta, multMatrix, &nN);
         
 	//free the allocated space:
 	delete [] work;
@@ -170,10 +164,9 @@ void GaussVector::generateRandomVector(double distFromMean, double *& result)
 	ptrdiff_t incx = 1;
 	double beta = 0.0;
 
-// 	clapack::dgemv_(&trans, &nN, &nN, &alpha, eigenvectors, &nN, unitRandomVector, &incx, 
-// 		&beta, result, &incx);
+// 	clapack::dgemv_(&trans, &nN, &nN, &alpha, eigenvectors, &nN, unitRandomVector, &incx, &beta, result, &incx);
     
-    dgemv_(&trans, &nN, &nN, &alpha, eigenvectors, &nN, unitRandomVector, &incx,&beta, result, &incx);
+    dgemv(&trans, &nN, &nN, &alpha, eigenvectors, &nN, unitRandomVector, &incx,&beta, result, &incx);
     
 
 	//Then, adjust the mean by adding the mean vector to the result!
@@ -201,10 +194,8 @@ void GaussVector::generateRandomVector(double *& result)
 	ptrdiff_t incx = 1;
 	double beta = 0.0;
 
-//	clapack::dgemv_(&trans, &nN, &nN, &alpha, multMatrix, &nN, unitRandomVector, &incx, 
-//		&beta, result, &incx);
-    dgemv_(&trans, &nN, &nN, &alpha, multMatrix, &nN, unitRandomVector, &incx, 
-		&beta, result, &incx);
+//	clapack::dgemv_(&trans, &nN, &nN, &alpha, multMatrix, &nN, unitRandomVector, &incx, &beta, result, &incx);
+    dgemv(&trans, &nN, &nN, &alpha, multMatrix, &nN, unitRandomVector, &incx, &beta, result, &incx);
 
     
 	//Then, adjust the mean by adding the mean vector to the result!
@@ -236,11 +227,8 @@ void GaussVector::generateRandomVector(double *& result, bool returnUnits, doubl
 	ptrdiff_t incx = 1;
 	double beta = 0.0;
 
-	//clapack::dgemv_(&trans, &nN, &nN, &alpha, multMatrix, &nN, unitVec, &incx, 
-//	&beta, result, &incx);
-
-dgemv(&trans, &nN, &nN, &alpha, multMatrix, &nN, unitVec, &incx, 
-		&beta, result, &incx);
+	//clapack::dgemv_(&trans, &nN, &nN, &alpha, multMatrix, &nN, unitVec, &incx, &beta, result, &incx);
+	dgemv(&trans, &nN, &nN, &alpha, multMatrix, &nN, unitVec, &incx, &beta, result, &incx);
 
     
 //Then, adjust the mean by adding the mean vector to the result!

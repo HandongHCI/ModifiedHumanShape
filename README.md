@@ -1,4 +1,4 @@
-Modified MPII's Human Shape
+Modified MPII's Human Shape (updated: January 2018)
 =====
 
 Please refer the  discription and source code of the original Human Shape from MPII's [website](http://humanshape.mpi-inf.mpg.de/) and [GitHub](https://github.com/leonid-pishchulin/humanshape).
@@ -14,9 +14,9 @@ Installation guideline for the modified MPII's Human Shape
 
 1. Clone or download the **modified MPII's Human Shape** from my [GitHub](https://github.com/HandongHCI/humanshape).
 
-1. Install `Microsoft Visual Studio Pro`. It should be the `Professional` version, not the `Community` version. When you install the Visual Studio Pro 2017, `VC++ 2017 toolset` and `Windows 10 SDK` should be checked.
+1. Install `Microsoft Visual Studio Pro 2017`. It should be the `Professional` version, not the `Community` version. When you install the Visual Studio Pro 2017, `VC++ 2017 toolset` and `Windows 10 SDK` should be checked.
 
-1. In Matlab, run `compile_mex.m` located in the folder `\external\lbfgsb_C\`, which is Dr. Becker's work.
+1. In Matlab, run `compile_mex.m` located in the folder `\external\lbfgsb_C\Matlab`, which is Dr. Becker's work.
 
 1. In Matlab, go to the folder same to where `demo.m` locates. Then, copy and paste the following code in the Matlab command line.
 
@@ -27,6 +27,10 @@ Installation guideline for the modified MPII's Human Shape
 1. Copy and paste the following code in the Matlab command line, too.
     ```
     mex -largeArrayDims -output rigidAlign.mexw64 -Imatlabroot\extern\include\ "evaluation\statQuality\rigidAlign.cpp" "evaluation\statQuality\GeneralizedProcrustes.cpp" -Lmatlabroot\extern\lib\win64\microsoft\ -llibmwblas.lib -llibmwlapack.lib
+    ```
+
+    ```
+    mex -largeArrayDims -output ErrorEvaluation.mexw64 -Imatlabroot\extern\include\ "evaluation\statQuality\ErrorEvaluation.cpp" "evaluation\statQuality\GaussVector.cpp" "evaluation\statQuality\patternRecognitionPCA.cpp" "evaluation\statQuality\UnsupervisedLearning.cpp" "evaluation\statQuality\Mle.cpp" -Lmatlabroot\extern\lib\win64\microsoft\ -llibmwblas.lib -llibmwlapack.lib
     ```
 
 1. Get necessary models (approx. 1.8 GB) from http://humanshape.mpi-inf.mpg.de/. These are necessary to run the code. Put the unzipped models in `\experiments\models\`, then edit `p.modelInDir` variable in `fitting\expParams.m` to point one of the models (e.g., `models/caesar`, but it is already set in the modification of Human Shape).

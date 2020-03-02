@@ -47,6 +47,7 @@ shapeParams = template.shapeParams;
 load([modelDir '/evectors'], 'evectors');
 assert(template.nPCA <= size(evectors,1));
 evectors = evectors(1:template.nPCA,:);
+% evectors(:, :) = 0;
 % visLandmarks(scan,template);
 
 %% optimization
@@ -68,6 +69,10 @@ fprintf('done\n\n');
     function E = optFunc(params)
         poseParams = params(1:end-1);
         [pointsSM, ~] = shapepose(poseParams,shapeParams,evectors,modelDir);
+        while sum(isnan(pointsSM)) > 0
+%             disp('countinued');
+            [pointsSM, ~] = shapepose(poseParams,shapeParams,evectors,modelDir);
+        end
         sc = params(1,end);
         pointsSM = sc * pointsSM;
         E = sum(sqrt(sum((landmarksScan - pointsSM(landmarksIdxsSM,:)).^2,2)));

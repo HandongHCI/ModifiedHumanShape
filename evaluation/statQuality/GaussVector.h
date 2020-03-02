@@ -31,42 +31,27 @@
 #include "mex.h"
 #include "blas.h"
 //#include "stddef.h"
-#include "lapack.h"    
+#include "lapack.h"
 //#include  "blascompat32.h"
+
+typedef double doublereal;
 
 //includes for CLAPACK
 // namespace clapack
 // {
-// 	extern "C"
-//     {
-//         
-// 		#include "blaswrap.h"
-// 		#include "f2c.h"
-// 		extern int dgemm_(char *transa, char *transb, integer *m, integer *
-// 			n, integer *k, doublereal *alpha, doublereal *a, integer *lda, 
-// 			doublereal *b, integer *ldb, doublereal *beta, doublereal *c, 
-// 			integer *ldc);
-// 		extern int dgemv_(char *trans, integer *m, integer *n, doublereal *
-// 			alpha, doublereal *a, integer *lda, doublereal *x, integer *incx, 
-// 			doublereal *beta, doublereal *y, integer *incy);
-// 		extern int dsyevx_(char *jobz, char *range, char *uplo, integer *n, 
-// 			doublereal *a, integer *lda, doublereal *vl, doublereal *vu, integer *
-// 			il, integer *iu, doublereal *abstol, integer *m, doublereal *w, 
-// 			doublereal *z__, integer *ldz, doublereal *work, integer *lwork, 
-// 			integer *iwork, integer *ifail, integer *info);
-// 		extern double dlamch_(char *cmach);
-// 		extern int dgetrf_(integer *m, integer *n, doublereal *a, integer *
-// 			lda, integer *ipiv, integer *info);
-// 		extern int dgetri_(integer *n, doublereal *a, integer *lda, integer 
-// 			*ipiv, doublereal *work, integer *lwork, integer *info);
-// 		extern int dgesdd_(char *jobz, integer *m, integer *n, doublereal *
-// 			a, integer *lda, doublereal *s, doublereal *u, integer *ldu, 
-// 			doublereal *vt, integer *ldvt, doublereal *work, integer *lwork, 
-// 			integer *iwork, integer *info);
-// 		extern int dgels_(char *trans, integer *m, integer *n, integer *
-// 			nrhs, doublereal *a, integer *lda, doublereal *b, integer *ldb, 
-// 			doublereal *work, integer *lwork, integer *info);
-// 	}
+	// extern "C"
+ //    {
+		// #include "blaswrap.h"
+		// #include "f2c.h"
+	// 	extern int dgemm_(char *transa, char *transb, ptrdiff_t *m, ptrdiff_t *n, ptrdiff_t *k, doublereal *alpha, doublereal *a, ptrdiff_t *lda, doublereal *b, ptrdiff_t *ldb, doublereal *beta, doublereal *c, ptrdiff_t *ldc);
+	// 	extern int dgemv_(char *trans, ptrdiff_t *m, ptrdiff_t *n, doublereal *alpha, doublereal *a, ptrdiff_t *lda, doublereal *x, ptrdiff_t *incx, doublereal *beta, doublereal *y, ptrdiff_t *incy);
+	// 	extern int dsyevx_(char *jobz, char *range, char *uplo, ptrdiff_t *n, doublereal *a, ptrdiff_t *lda, doublereal *vl, doublereal *vu, ptrdiff_t *il, ptrdiff_t *iu, doublereal *abstol, ptrdiff_t *m, doublereal *w, doublereal *z__, ptrdiff_t *ldz, doublereal *work, ptrdiff_t *lwork, ptrdiff_t *iwork, ptrdiff_t *ifail, ptrdiff_t *info);
+	// 	extern double dlamch_(char *cmach);
+	// 	extern int dgetrf_(ptrdiff_t *m, ptrdiff_t *n, doublereal *a, ptrdiff_t *lda, ptrdiff_t *ipiv, ptrdiff_t *info);
+	// 	extern int dgetri_(ptrdiff_t *n, doublereal *a, ptrdiff_t *lda, ptrdiff_t *ipiv, doublereal *work, ptrdiff_t *lwork, ptrdiff_t *info);
+	// 	extern int dgesdd_(char *jobz, ptrdiff_t *m, ptrdiff_t *n, doublereal *a, ptrdiff_t *lda, doublereal *s, doublereal *u, ptrdiff_t *ldu, doublereal *vt, ptrdiff_t *ldvt, doublereal *work, ptrdiff_t *lwork, ptrdiff_t *iwork, ptrdiff_t *info);
+	// 	extern int dgels_(char *trans, ptrdiff_t *m, ptrdiff_t *n, ptrdiff_t *nrhs, doublereal *a, ptrdiff_t *lda, doublereal *b, ptrdiff_t *ldb, doublereal *work, ptrdiff_t *lwork, ptrdiff_t *info);
+	// }
 // }
 
 

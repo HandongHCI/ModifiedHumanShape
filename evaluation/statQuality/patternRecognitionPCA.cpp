@@ -49,7 +49,7 @@ patternRecognitionPCA::~patternRecognitionPCA()
 
 void patternRecognitionPCA::learnPCA(int inputDim, int outputDim, int numberSamples, double * &samples)
 {
-	int i, j;
+	// int i, j;
 	
 	this->inputDim = inputDim;
 	this->outputDim = outputDim;
@@ -172,8 +172,7 @@ void patternRecognitionPCA::projectToPCA(double *& newSample, double *& reducedS
 
 		//Use the reduction matrix to add a sample to the PCA space:
         //y := alpha*smallReductionMatrix*inc + beta*y.
-		dgemv(&transN, &m, &n, &alpha, smallReductionMatrix, &m, modifiedSample, &incx, &beta, reducedSample, 
-			&incx);
+		dgemv(&transN, &m, &n, &alpha, smallReductionMatrix, &m, modifiedSample, &incx, &beta, reducedSample, &incx);
 
 		delete [] modifiedSample;
 
@@ -195,7 +194,6 @@ void patternRecognitionPCA::reconstructFromPCA(double *& newRedSample, double *&
 	//Use the transposed reduction matrix here:
     // MONICA-y := alpha*reductionMatrix'*newRedSample + beta*y
 	dgemv(&transY, &m, &n, &alpha, reductionMatrix, &m, newRedSample, &inc, &beta, outputSample, &inc);
-
         
 	for(i = 0; i < inputDim; i++) outputSample[i] = mean[i] + outputSample[i];
 }

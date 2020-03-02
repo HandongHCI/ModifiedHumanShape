@@ -341,7 +341,8 @@ bool CMesh::readModel(const char* aFilename, bool smooth)
 		return false;
 	}
 
-	int aXSize, aYSize, size = 4;
+	//int aXSize, aYSize
+	int size = 4;
 
 	CJoint Joint;
 
@@ -479,7 +480,7 @@ bool CMesh::readModel(const char* aFilename, bool smooth)
 
 	for(int j=0; j<mJointMap.size();++j)
 		if(mJointMap(j)>=0)
-			mBounds(mJointMap(j),8,0) = j;
+			mBounds(mJointMap(j),8,0) = (float)j;
 
 	// Read joints
 	int dummy;
@@ -853,7 +854,7 @@ void CMesh::smoothMotionDQ(CVector<CMatrix<float> >& M,CVector<float>& X) {
 			}
 		}
 
-		float invl = 1.0/eq0.norm(); 
+		float invl = 1.0F/eq0.norm(); 
 		eq0 *= invl;
 		edq *= invl;
 
@@ -879,9 +880,9 @@ void CMesh::makeSmooth(CMesh* initMesh, bool dual) {
 
 		for(int i=6; i<mCurrentMotion.mPoseParameters.size(); ++i) {
 			while(mCurrentMotion.mPoseParameters[i] < -3.1415926536)
-				mCurrentMotion.mPoseParameters[i] += 2.0*3.1415926536;
+				mCurrentMotion.mPoseParameters[i] += 2.0F*3.1415926536F;
 			while(mCurrentMotion.mPoseParameters[i] > 3.1415926536)
-				mCurrentMotion.mPoseParameters[i] -= 2.0*3.1415926536;
+				mCurrentMotion.mPoseParameters[i] -= 2.0F*3.1415926536F;
 		}
 
 		CVector<float> X(mCurrentMotion.mPoseParameters);
@@ -1038,14 +1039,14 @@ void CMesh::projectToImage(CMatrix<float>& aImage, CMatrix<float>& P, int aLineV
 
 
 				if (ax >= 0 && ay >= 0 && ax < aImage.xSize() && ay < aImage.ySize())
-					aImage.drawLine(ax,ay,bx,by,aLineValue);
+					aImage.drawLine(ax,ay,bx,by,(float)aLineValue);
 				ax=bx;
 				ay=by;
 			}
 			j=0;
 			(*this).projectPoint(P, mPoints[ I[j] ](0),mPoints[ I[j] ](1),mPoints[ I[j] ](2),bx,by);
 			if (ax >= 0 && ay >= 0 && ax < aImage.xSize() && ay < aImage.ySize())
-				aImage.drawLine(ax,ay,bx,by,aLineValue);
+				aImage.drawLine(ax,ay,bx,by,(float)aLineValue);
 		}
 	}
 }
@@ -1062,9 +1063,9 @@ void CMesh::projectToImage(CTensor<float>& aImage, CMatrix<float>& P, int aLineR
 	int a2Size = 2*aSize;
 	for (int i = 0; i < aSize; i++)
 		if (aMesh.data()[i] == 255) {
-			aImage.data()[i] = aLineR;
-			aImage.data()[i+aSize] = aLineG;
-			aImage.data()[i+a2Size] = aLineB;
+			aImage.data()[i] = (float)aLineR;
+			aImage.data()[i+aSize] = (float)aLineG;
+			aImage.data()[i+a2Size] = (float)aLineB;
 		}
 #if 0
 		int mx, my;
@@ -1092,14 +1093,14 @@ void CMesh::projectToImage(CTensor<float>& aImage, CMatrix<float>& P, int aLineR
 	int a2Size = 2*aSize;
 	for (int i = 0; i < aSize; i++)
 		if (aMesh.data()[i] == 255) {
-			aImage.data()[i] = aLineR;
-			aImage.data()[i+aSize] = aLineG;
-			aImage.data()[i+a2Size] = aLineB;
+			aImage.data()[i] = (float)aLineR;
+			aImage.data()[i+aSize] = (float)aLineG;
+			aImage.data()[i+a2Size] = (float)aLineB;
 		}
 		else if (aMesh.data()[i] == 128) {
-			aImage.data()[i] = aNodeR;
-			aImage.data()[i+aSize] = aNodeG;
-			aImage.data()[i+a2Size] = aNodeB;
+			aImage.data()[i] = (float)aNodeR;
+			aImage.data()[i+aSize] = (float)aNodeG;
+			aImage.data()[i+a2Size] = (float)aNodeB;
 		}
 }
 
@@ -1115,7 +1116,7 @@ void CMesh::projectPointsToImage(CMatrix<float>& aImage, CMatrix<float>& P, int 
 		projectPoint(P,mPoints[i](0),mPoints[i](1),mPoints[i](2),ax,ay);
 		if (ax >= 0 && ay >= 0 && ax < aImage.xSize() && ay < aImage.ySize())
 			if(aMesh(ax,ay)==aNodeVal)
-				aImage(ax,ay) = aNodeVal;
+				aImage(ax,ay) = (float)aNodeVal;
 	}
 }
 
@@ -1182,7 +1183,7 @@ void CMesh::projectToImageJ(CMatrix<float>& aImage, CMatrix<float>& P, int aLine
 					bx -= xoffset; by -= yoffset;
 
 					if (ax >= 0 && ay >= 0 && ax < aImage.xSize() && ay < aImage.ySize())
-						aImage.drawLine(ax,ay,bx,by,aLineValue);
+						aImage.drawLine(ax,ay,bx,by,(float)aLineValue);
 					ax=bx;
 					ay=by;
 				}
@@ -1190,7 +1191,7 @@ void CMesh::projectToImageJ(CMatrix<float>& aImage, CMatrix<float>& P, int aLine
 				(*this).projectPoint(P, mPoints[ I[j] ](0),mPoints[ I[j] ](1),mPoints[ I[j] ](2),bx,by);
 				bx -= xoffset; by -= yoffset;
 				if (ax >= 0 && ay >= 0 && ax < aImage.xSize() && ay < aImage.ySize())
-					aImage.drawLine(ax,ay,bx,by,aLineValue);
+					aImage.drawLine(ax,ay,bx,by,(float)aLineValue);
 			}
 		}
 	}
@@ -1232,13 +1233,13 @@ void CMesh::readShapeSpaceEigens(const double* eigenVectorsIn, int numEigenVecto
   eigenVectors.resize(numEigenVectors);
   int dimD = 3;
   
-  for (unsigned int i0 = 0; i0 < numEigenVectors; i0++){
+  for (int i0 = 0; i0 < numEigenVectors; i0++){
     eigenVectors[i0].setSize(nPoints,dimD);
   }
   int n = 0;
   for(int col = 0; col < dimD; col++)
     for(int row = 0; row < nPoints; row++)
-      for (unsigned int i0 = 0; i0 < numEigenVectors; i0++){
+      for (int i0 = 0; i0 < numEigenVectors; i0++){
 	eigenVectors[i0](row, col) = eigenVectorsIn[n];
 	n++;
       }
@@ -1250,14 +1251,18 @@ void CMesh::readShapeSpaceEigens(std::string fileName, int numEigenVectors)
 	ifstream loadFile;
 	loadFile.open(path.c_str());
 	//reading only first four columns here
-	char fullLine[10000], c[numEigenVectors][500];
+	//char fullLine[10000], c[numEigenVectors][500];
+	char* fullLine = new char[10000];
+	char** c = new char* [numEigenVectors];
+	for(int i = 0; i<numEigenVectors; i++)
+		c[i] = new char[500];
 	eigenVectors.resize(numEigenVectors);
-	for (unsigned int i0 = 0; i0 < numEigenVectors; i0++)
+	for (int i0 = 0; i0 < numEigenVectors; i0++)
 	{
-		eigenVectors[i0].setSize(6449,3);
+		eigenVectors[i0].setSize(13249,3);
 		eigenVectors[i0] = 0;
 	}
-	unsigned int row = 0, col = 0;
+	int row = 0, col = 0;
 	unsigned totalLines = 1;
 	int noPts = 0;
 	while(!loadFile.getline(fullLine, 10000).eof())
@@ -1273,7 +1278,7 @@ void CMesh::readShapeSpaceEigens(std::string fileName, int numEigenVectors)
 			&c[4], &c[5], &c[6], &c[7],&c[8], &c[9],
 			&c[10], &c[11], &c[12], &c[13], 
 			&c[14], &c[15], &c[16], &c[17],&c[18], &c[19]);	
-		for (unsigned int i0 = 0; i0 < numEigenVectors; i0++)
+		for (int i0 = 0; i0 < numEigenVectors; i0++)
 		{	
 
 			eigenVectors[i0](row, col) = atof(c[i0]);
@@ -1291,12 +1296,12 @@ void CMesh::readShapeSpaceEigens(std::string fileName, int numEigenVectors)
 
 int CMesh::shapeChangesToMesh( CVector<float> shapeParams ){
     
-  unsigned int noPts = mPoints.size();	
+  size_t noPts = mPoints.size();	
   for(unsigned int i1 = 0; i1 < mPoints.size(); i1++){
     for(unsigned int i2 = 0; i2 < 3; i2++){
-      for(unsigned int i0 = 0; i0 < shapeParams.size(); i0++){					
+      for(int i0 = 0; i0 < shapeParams.size(); i0++){					
 	double tmp = shapeParams[i0];
-	(mPoints[i1])[i2] += shapeParams[i0]*SKEL_SCALE_FACTOR*eigenVectors[i0](i1,i2);			
+	(mPoints[i1])[i2] += (float)shapeParams[i0]*(float)SKEL_SCALE_FACTOR*(float)eigenVectors[i0](i1,i2);
       }
     }
   }	
@@ -1339,9 +1344,9 @@ int CMesh::updateJntPos()
 			
 			sumTheMatrix(tmpMatrix, t1);				
 			
-			newJnt(0) = t1(0)/sumMinEle;
-			newJnt(1) = t1(1)/sumMinEle;
-			newJnt(2) = t1(2)/sumMinEle;
+			newJnt(0) = t1(0)/(float)sumMinEle;
+			newJnt(1) = t1(1)/(float)sumMinEle;
+			newJnt(2) = t1(2)/(float)sumMinEle;
 			
 			joints0(i0, 3*i1 + 0) = newJnt(0);
 			joints0(i0, 3*i1 + 1) = newJnt(1);
@@ -1358,12 +1363,12 @@ int CMesh::updateJntPos()
 	sumTheMatrix(tmpMatrix, t1);
 	double sumRootElse = sumTheVector(singleWts); assert(sumRootElse > 0);
 	if(sumRootElse <= 0) sumRootElse = 1;
-	newJntPos(0, 0) = t1(0)/sumRootElse;
-	newJntPos(0, 1) = t1(1)/sumRootElse;
-	newJntPos(0, 2) = t1(2)/sumRootElse;
+	newJntPos(0, 0) = t1(0)/(float)sumRootElse;
+	newJntPos(0, 1) = t1(1)/(float)sumRootElse;
+	newJntPos(0, 2) = t1(2)/(float)sumRootElse;
 
 	int parentMap[50]; // jNo=(jId -1) (to)---> parent jId
-	for(unsigned int i0 = 0; i0 < mJointNumber; i0++)
+	for(int i0 = 0; i0 < mJointNumber; i0++)
 	  {
 	    int jId = i0 + 1;
 	    parentMap[i0] = mJoint(jId).mParent;
@@ -1397,7 +1402,7 @@ int CMesh::updateJntPos()
 	nonRoots.insert(25);
 
 	float tmp[3];
-	for(unsigned int i0 = 0; i0 < mJointNumber; i0++)
+	for(int i0 = 0; i0 < mJointNumber; i0++)
 	  {
 	    int jId = i0 + 1;		
 	    if(nonRoots.count(jId) != 0)
@@ -1419,7 +1424,7 @@ int CMesh::updateJntPos()
 	copyJointPos(23, 2, newJntPos);
 	copyJointPos(24, 10, newJntPos);
 
-	for(unsigned int i0 = 0; i0 < mJointNumber; i0++)
+	for(int i0 = 0; i0 < mJointNumber; i0++)
 	  {
 	    unsigned int jId = i0 + 1;
 	    CVector<float> aDir = mJoint(jId).getDirection();		
@@ -1529,33 +1534,37 @@ void CMesh::findNewAxesOrient( CVector<double> &axisLeftArm, CVector<double> &ax
 	CVector<double> upperArmL, upperArmR, lowerArmL, lowerArmR;
 	upperArmL.setSize(3); lowerArmL.setSize(3);
 	upperArmR.setSize(3); lowerArmR.setSize(3);
-#define WRISTPTS 34
-	unsigned int rightWristPts[WRISTPTS] = { 2842, 2843, 2845, 2846, 2847, 2848, 2849, 2851, 2852, 2853, 2855,
-		2856, 2857, 2858, 2865, 2866, 2867, 2870, 2871, 2872, 2873, 2876, 2879, 2880, 2884, 2885,
-		2886, 2887, 2888, 2914, 2932, 2934, 2957 };
+#define WRISTPTS_R 307
+#define WRISTPTS_L 424
+	unsigned int rightWristPts[WRISTPTS_R] = { 386, 382, 380, 379, 375, 373, 372, 371, 370, 368, 366, 346, 364, 363, 369, 360, 357, 362, 353, 352, 356, 347, 343, 340, 339, 338, 336, 342, 335, 334, 333, 330, 329, 324, 321, 318, 317, 314, 313, 312, 319, 310, 305, 304, 303, 302, 300, 299, 296, 298, 295, 294, 290, 284, 289, 283, 281, 280, 278, 277, 276, 275, 274, 269, 268, 266, 265, 264, 261, 259, 258, 257, 255, 254, 251, 250, 249, 248, 252, 245, 244, 241, 240, 239, 235, 237, 233, 232, 231, 228, 230, 224, 223, 222, 220, 219, 226, 217, 216, 213, 212, 214, 211, 210, 209, 208, 207, 206, 205, 203, 199, 198, 197, 195, 194, 193, 192, 191, 202, 190, 189, 187, 186, 185, 183, 182, 188, 181, 180, 179, 176, 184, 175, 173, 172, 171, 170, 169, 168, 174, 165, 164, 163, 162, 166, 160, 159, 158, 167, 157, 155, 154, 152, 153, 151, 150, 149, 161, 148, 147, 146, 156, 145, 144, 143, 142, 141, 139, 138, 140, 136, 137, 135, 133, 132, 130, 134, 129, 128, 127, 126, 125, 124, 123, 122, 121, 119, 118, 120, 117, 131, 116, 115, 114, 113, 112, 111, 109, 108, 107, 106, 105, 103, 102, 101, 104, 100, 99, 110, 98, 97, 95, 96, 94, 93, 92, 91, 90, 89, 88, 87, 86, 85, 84, 83, 81, 80, 79, 78, 82, 77, 76, 74, 73, 71, 72, 70, 75, 69, 67, 66, 68, 65, 64, 60, 59, 62, 58, 57, 56, 63, 55, 61, 54, 52, 51, 50, 53, 49, 48, 47, 46, 43, 42, 40, 45, 38, 41, 37, 35, 34, 44, 31, 36, 39, 30, 33, 29, 32, 28, 27, 26, 25, 24, 22, 21, 20, 19, 17, 23, 12, 13, 18, 11, 16, 10, 15, 9, 5, 7, 8, 6, 4, 14, 1, 3, 2 };
 
-	unsigned int leftWristPts[WRISTPTS] = { 5971, 5972, 5973, 5975, 5976, 5977, 5978, 5979, 5981, 5982,
-		5983, 5985, 5986, 5987, 5988, 5995, 5996, 5997, 6000, 6001, 6002, 6003, 6006, 6009, 6010,
-		6014, 6015, 6016, 6017, 6018, 6044, 6062, 6064, 6087 };
+	unsigned int leftWristPts[WRISTPTS_L] = { 11512, 11514, 11513, 11506, 11508, 11505, 11510, 11501, 11511, 11500, 11507, 11497, 11509, 11492, 11491, 11503, 11504, 11496, 11499, 11484, 11490, 11487, 11498, 11489, 11493, 11477, 11502, 11495, 11494, 11480, 11469, 11483, 11488, 11476, 11465, 11464, 11463, 11485, 11468, 11459, 11475, 11474, 11478, 11458, 11455, 11486, 11481, 11467, 11462, 11448, 11456, 11479, 11446, 11461, 11450, 11457, 11447, 11442, 11482, 11471, 11473, 11440, 11454, 11466, 11435, 11472, 11452, 11470, 11428, 11449, 11451, 11424, 11443, 11439, 11427, 11432, 11422, 11418, 11436, 11425, 11426, 11415, 11438, 11444, 11429, 11412, 11460, 11409, 11445, 11431, 11405, 11421, 11403, 11402, 11453, 11430, 11400, 11411, 11434, 11441, 11396, 11420, 11417, 11394, 11416, 11392, 11419, 11391, 11408, 11389, 11388, 11387, 11413, 11437, 11382, 11398, 11381, 11393, 11379, 11395, 11378, 11376, 11375, 11410, 11374, 11414, 11433, 11423, 11373, 11383, 11386, 11368, 11377, 11380, 11401, 11364, 11397, 11407, 11390, 11385, 11365, 11366, 11370, 11346, 11404, 11344, 11406, 11343, 11339, 11369, 11336, 11350, 11353, 11347, 11341, 11332, 11354, 11399, 11345, 11334, 11349, 11326, 11355, 11371, 11328, 11324, 11384, 11361, 11372, 11333, 11319, 11338, 11363, 11356, 11362, 11314, 11313, 11340, 11357, 11306, 11331, 11309, 11305, 11367, 11360, 11335, 11300, 11351, 11359, 11358, 11301, 11342, 11352, 11299, 11311, 11295, 11348, 11323, 11294, 11327, 11308, 11316, 11281, 11320, 11310, 11318, 11297, 11271, 11315, 11321, 11272, 11280, 11263, 11262, 11296, 11291, 11261, 11330, 11337, 11329, 11254, 11322, 11268, 11307, 11278, 11302, 11286, 11287, 11240, 11284, 11282, 11220, 11234, 11290, 11244, 11224, 11269, 11298, 11223, 11249, 11277, 11270, 11218, 11245, 11216, 11279, 11233, 11248, 11222, 11207, 11241, 11236, 11206, 11205, 11260, 11204, 11199, 11229, 11253, 11197, 11195, 11274, 11258, 11273, 11186, 11237, 11208, 11252, 11250, 11219, 11178, 11264, 11257, 11173, 11185, 11184, 11169, 11239, 11198, 11183, 11196, 11230, 11179, 11242, 11201, 11161, 11228, 11167, 11213, 11176, 11174, 11166, 11182, 11158, 11165, 11192, 11157, 11162, 11146, 11212, 11210, 11144, 11164, 11150, 11163, 11140, 11147, 11203, 11180, 11135, 11194, 11181, 11130, 11143, 11154, 11125, 11137, 11129, 11145, 11133, 11121, 11118, 11123, 11134, 11115, 11188, 11168, 11139, 11107, 11127, 11106, 11155, 11114, 11109, 11111, 11096, 11159, 11105, 11097, 11128, 11085, 11122, 11083, 11112, 11084, 11124, 11061, 10997, 11142, 11069, 11100, 11067, 11081, 11098, 11116, 11070, 11056, 11091, 11054, 11104, 11095, 11051, 11080, 11076, 11066, 11071, 11065, 11045, 11088, 11049, 11043, 11055, 11089, 11040, 11039, 11092, 11029, 11041, 11032, 11028, 11048, 11046, 11050, 11053, 11026, 11060, 11010, 11020, 11017, 11031, 11011, 11006, 11022, 11025, 10998, 11018, 11016, 11000, 10996, 11003, 10991, 10987, 11019, 10995, 10986, 10985, 11021, 11015, 10977, 10974, 10982, 10999, 10984, 10943, 10939, 10965, 10961, 10970, 10950, 10951, 10933, 10976, 10949, 10928 };
 	CVector<double> leftWrist, rightWrist;
 	leftWrist.setSize(3); rightWrist.setSize(3);
 	leftWrist = rightWrist = 0;
 
-	for(unsigned int i0 = 0; i0 < WRISTPTS; i0++)
+	for(unsigned int i0 = 0; i0 < WRISTPTS_R; i0++)
 	{
-		unsigned int lIdx = leftWristPts[i0], rIdx = rightWristPts[i0];
+		unsigned int rIdx = rightWristPts[i0];
 		for(unsigned int i1 = 0; i1 < 3; i1++)
-		{
-			
-			leftWrist(i1) += (mPoints[lIdx])(i1);
+		{		
 			rightWrist(i1) += (mPoints[rIdx])(i1);
 		}		
 	}
 
+	for (unsigned int i0 = 0; i0 < WRISTPTS_L; i0++)
+	{
+		unsigned int lIdx = leftWristPts[i0];
+		for (unsigned int i1 = 0; i1 < 3; i1++)
+		{
+			leftWrist(i1) += (mPoints[lIdx])(i1);
+		}
+	}
+
 	for(unsigned int i1 = 0; i1 < 3; i1++)
 	{
-		leftWrist(i1) = leftWrist(i1)/WRISTPTS;
-		rightWrist(i1) = leftWrist(i1)/WRISTPTS;		
+		leftWrist(i1) = leftWrist(i1)/WRISTPTS_L;
+		rightWrist(i1) = rightWrist(i1)/ WRISTPTS_R;
 	}		
 
 	for(unsigned i0 = 0; i0 < 3; i0++)
@@ -1599,9 +1608,9 @@ void CMesh::writeMeshDat( std::string fname )
 {
 	NShow::mLogFile.open( fname.c_str() );
 	char buffer[10000];	
-	sprintf(buffer,"%d %d %d %d\n", mPoints.size(), mPatch.size(), joints(), mNoOfBodyParts );
+	//sprintf(buffer,"%d %d %d %d\n", mPoints.size(), mPatch.size(), joints(), mNoOfBodyParts );
 	NShow::mLogFile << buffer;
-	for (unsigned int i0 = 0; i0 < mNumPoints; i0++ )
+	for (int i0 = 0; i0 < mNumPoints; i0++ )
 	{
 		sprintf(buffer,"%f %f %f", mPoints[i0](0), mPoints[i0](1), mPoints[i0](2));
 		NShow::mLogFile << buffer;
@@ -1613,7 +1622,7 @@ void CMesh::writeMeshDat( std::string fname )
 		sprintf(buffer,"%d %d %d\n", mPatch[i0](0), mPatch[i0](1), mPatch[i0](2));
 		NShow::mLogFile << buffer;
 	}
-	for(unsigned int k0 = 0; k0 < mJointNumber; k0++)
+	for(int k0 = 0; k0 < mJointNumber; k0++)
 	{
 		int jId = k0 + 1;
 		CVector<float> &t_jPos = mJoint(jId).getPoint();

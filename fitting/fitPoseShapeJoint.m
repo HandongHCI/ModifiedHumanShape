@@ -25,7 +25,7 @@ if (nargin < 4)
 end
 
 % load idxHand
-load('VertexIdxSpecParts', 'idxHand');
+load('VertexIdxSpecPartsNew', 'idxHand');
 load([modelDir '/evectors'], 'evectors');
 assert(template(1).nPCA <= size(evectors,1));
 evectors = evectors(1:template(1).nPCA,:);

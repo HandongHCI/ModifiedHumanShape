@@ -16,7 +16,7 @@
     redistributed without permission from the authors.
 %}
 
-function template = register(scan,template,saveDir,modelDir,bInit,nrdWidx,initDir)
+function template = register(scan, template ,saveDir, modelDir, bInit, nrdWidx, initDir)
     fprintf('\n[2] registration()\n');
 
     if (nargin < 7)
